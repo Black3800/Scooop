@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import Login from './Login';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoggedin: false
+    };
+
+    this.setToken = this.setToken.bind(this);
+  }
+
+  setToken(usr, pwd) {
+    if(usr === 'anakin' && pwd === '1234')
+    {
+      this.setState({
+        isLoggedin: true
+      });
+      sessionStorage.setItem('usr', usr);
+    }
+    else
+    {
+      alert('wrong username/password');
+    }
+  }
+
+  render() {
+    if(!this.state.isLoggedin)
+    {
+      return <Login setToken={this.setToken} />;
+    }
+
+    return(
+      <div className='App'>
+        You're logged in
+      </div>
+    )
+  }
 }
 
 export default App;
