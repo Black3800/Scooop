@@ -7,6 +7,9 @@
   line-height: 32px;
   font-weight: bold;
   font-size: 1.2em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .site-layout .site-layout-background {
@@ -29,13 +32,18 @@
 }
 
 .login-card {
-  height: 250px;
+  /* height: 250px; */
   background: rgba( 255, 255, 255, 0.60 );
 /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
   backdrop-filter: blur( 8.0px );
   -webkit-backdrop-filter: blur( 8.0px );
   border-radius: 10px;
   border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.login-card .ant-card-body {
+  padding: 24px;
+  padding-bottom: 8px;
 }
 
 .scooop-table {
@@ -95,6 +103,8 @@
   bottom: 10px;
   color: #d9d9d9;
   text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 #site-sider .ant-layout-sider-children .logout-btn:hover {

@@ -8,12 +8,24 @@ class Stats extends Component {
             <div style={{
                 height: '100%',
                 display: 'flex',
-                flexFlow: 'row nowrap',
+                flexFlow: 'row wrap',
                 justifyContent: 'space-around',
                 alignItems: 'center'
             }}>
-                <Statistic title="Feedback" value={1128} prefix={<HeartOutlined />} />
-                <Statistic title="Icecream sold" value={1346} prefix={<SmileOutlined />} />
+                <Statistic
+                    title="Feedback"
+                    value={1128}
+                    prefix={<HeartOutlined />}
+                    style={{
+                        margin: 10
+                    }} />
+                <Statistic
+                    title="Icecream sold"
+                    value={1346}
+                    prefix={<SmileOutlined />}
+                    style={{
+                        margin: 10
+                    }} />
             </div>
         )
     }

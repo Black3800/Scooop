@@ -24,6 +24,7 @@ const allItemsDOM = allItems.map((item, index) => (
         <Meta title={item.name} description={item.price + 'THB'} />
     </Card>
 ));
+const screenWidth = window.screen.width;
 
 class ScooopTableChild extends Component {
 
@@ -156,7 +157,7 @@ class ScooopTable extends Component {
                 {childs}
                 <Drawer
                     title={this.state.drawerTitle}
-                    width={700}
+                    width={(screenWidth < 768) ? '100%' : '70%'}
                     placement='right'
                     onClose={onCloseDrawer}
                     visible={this.state.drawerVisible}
@@ -192,7 +193,7 @@ class ScooopTable extends Component {
                     </>
                     <Drawer
                         title='Add an order'
-                        width={500}
+                        width={(screenWidth < 768) ? '100%' : '60%'}
                         placement='right'
                         onClose={onCloseAddDrawer}
                         visible={this.state.addDrawerVisible}

@@ -72,7 +72,7 @@ class Account extends Component {
                 justifyContent: 'space-around',
                 alignItems: 'center'
             }}>
-                    <Card title='Manage user accounts' style={{width: '80%'}}>
+                    <Card title='Manage user accounts' style={{width: '90%', overflowX: 'scroll'}}>
                         <Table dataSource={dataSource} columns={columns} />
                     </Card>
             </div>

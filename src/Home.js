@@ -14,10 +14,12 @@ import fakeDB from './fakeDB';
 
 const {Content, Sider} = Layout;
 
+const screenWidth = window.screen.width;
+
 class Home extends Component {
 
     state = {
-        collapsed: false,
+        collapsed: (screenWidth <= 320),
         loggedOut: false,
         page: 'scooopTable'
     };
@@ -66,10 +68,11 @@ class Home extends Component {
                     collapsed={collapsed}
                     onCollapse={this.onCollapse}
                     style={{
-                        position: 'relative'
+                        position: 'relative',
+                        zIndex: 2
                     }}
                 >
-                    <div className='logo'>Scooop</div>
+                    <div className='logo'>{ collapsed ? 'S' : 'Scooop' }</div>
                     <Menu theme='dark' defaultSelectedKeys={['1']} mode='inline'>
                         <Menu.Item key='1' icon={<HomeOutlined />} onClick={()=>{
                             this.setState({
@@ -109,7 +112,7 @@ class Home extends Component {
                         {logoutBtnText}
                     </Button>
                 </Sider>
-                <Content style={{ margin: '0 16px' }}>
+                <Content style={{ margin: '0 16px', zIndex: 1 }}>
                     {page}
                 </Content>
             </Layout>

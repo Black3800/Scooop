@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Card, Input, Button, Form} from 'antd';
 
 class Login extends Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {
@@ -55,20 +55,20 @@ class Login extends Component {
                         <Form.Item
                             label='Username'
                             name='usr'
-                            rules={[{
-                                required: true,
-                                message: 'Please enter your username'
-                            }]}
+                            // rules={[{
+                            //     required: true,
+                            //     message: 'Please enter your username'
+                            // }]}
                         >
                             <Input />
                         </Form.Item>
                         <Form.Item
                             label='Password'
                             name='pwd'
-                            rules={[{
-                                required: true,
-                                message: 'Please enter your password'
-                            }]}
+                            // rules={[{
+                            //     required: true,
+                            //     message: 'Please enter your password'
+                            // }]}
                         >
                             <Input.Password />
                         </Form.Item>
