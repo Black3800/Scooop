@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Card, Input, Button, Form} from 'antd';
 
 class Login extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -82,30 +83,6 @@ class Login extends Component {
                 </Card>
             </div>
         );
-        // return(
-        //     <div className='Login'>
-        //         <form onSubmit={(e) => { 
-        //             this.props.setToken(
-        //                 document.getElementById('usr').value,
-        //                 document.getElementById('pwd').value
-        //             );
-        //             e.preventDefault();
-        //         }}>
-        //             <h1>Login</h1>
-        //             <label for='usr'>
-        //                 Username
-        //                 <input type='text' name='usr' id='usr' />
-        //             </label>
-        //             <br/>
-        //             <label for='pwd'>
-        //                 Password
-        //                 <input type='password' name='pwd' id='pwd' />
-        //             </label>
-        //             <br/>
-        //             <button>Login</button>
-        //         </form>
-        //     </div>
-        // );
     }
 }
 

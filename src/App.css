@@ -2,6 +2,11 @@
   height: 32px;
   margin: 16px;
   background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  text-align: center;
+  line-height: 32px;
+  font-weight: bold;
+  font-size: 1.2em;
 }
 
 .site-layout .site-layout-background {
@@ -60,6 +65,25 @@
   transition: background-color 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s cubic-bezier(0.22, 1, 0.36, 1); */
 }
 
+@media only screen and (max-width: 600px) {
+  .scooop-table > .scooop-table-row > .scooop-table-child {
+    margin-bottom: 15px;
+  }
+}
+
+/* .scooop-drawer .ant-drawer-content {
+  background: rgba( 255, 255, 255, 0.85 );
+  backdrop-filter: blur( 8.0px );
+  -webkit-backdrop-filter: blur( 8.0px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+} */
+
+.scooop-drawer .ant-drawer-header {
+  /* background: transparent; */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+}
+
 #site-sider .ant-layout-sider-children {
   position: relative;
 }
@@ -75,4 +99,11 @@
 
 #site-sider .ant-layout-sider-children .logout-btn:hover {
   color: #40a9ff;
+}
+
+.addDrawer-card {
+  border: 1px solid rgba( 0, 0, 0, 0.08 );
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 15px;
 }

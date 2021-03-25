@@ -1,0 +1,97 @@
+{
+    "account" : [
+        {
+            "uid" : 0,
+            "usr" : "admin",
+            "pwd" : "1111",
+            "privilege" : 0
+        },
+        {
+            "uid" : 1,
+            "usr" : "anakin",
+            "pwd" : "1234",
+            "privilege" : 1
+        },
+        {
+            "uid" : 2,
+            "usr" : "tanny",
+            "pwd" : "5555",
+            "privilege" : 2
+        },
+        {
+            "uid": 3,
+            "usr": "steve",
+            "pwd": "5555",
+            "privilege": 1
+        },
+        {
+            "uid": 4,
+            "usr": "bill",
+            "pwd": "5555",
+            "privilege": 2
+        }
+    ],
+    "items" : [
+        {
+            "name" : "Chocolate Sundae",
+            "price" : 79,
+            "img" : "chocolate-sundae.jpg"
+        },
+        {
+            "name" : "Strawberry Sundae",
+            "price" : 89,
+            "img" : "strawberry-sundae.jpg"
+        },
+        {
+            "name" : "Banana Sundae",
+            "price" : 89,
+            "img" : "banana-sundae.jpg"
+        },
+        {
+            "name" : "Blueberry Pie Sundae",
+            "price" : 139,
+            "img" : "blueberry-pie-sundae.jpg"
+        },
+        {
+            "name" : "Mega Sundae",
+            "price" : 249,
+            "img" : "mega-sundae.jpg"
+        }
+    ],
+    "orders" : [
+        {
+            "order_id" : 0,
+            "table" : "a3",
+            "ordered_items" : [
+                [0, 2],
+                [1, 1],
+                [3, 2]
+            ],
+            "in" : "Thu Mar 25 2021 19:31:20 GMT+0700 (Indochina Time)",
+            "out" : null
+        },
+        {
+            "order_id": 1,
+            "table": "b2",
+            "ordered_items": [
+                [4, 1],
+                [2, 1]
+            ],
+            "in": "Thu Mar 25 2021 19:35:45 GMT+0700 (Indochina Time)",
+            "out": null
+        }
+    ],
+    "current" : {
+        "a1": null,
+        "a2": null,
+        "a3": 0,
+        "a4": null,
+        "b1": null,
+        "b2": 1,
+        "b3": null,
+        "c1": null,
+        "c2": null,
+        "c3": null,
+        "c4": null
+    }
+}

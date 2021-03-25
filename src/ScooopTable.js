@@ -1,36 +1,37 @@
 import React, {Component} from 'react';
-import {Button, Typography, Drawer} from 'antd';
+import {Button, Typography, Drawer, Divider, Card} from 'antd';
 import Orders from './Orders';
+import fakeDB from './fakeDB';
 
 const {Text} = Typography;
+const {Meta} = Card;
+
+const allItems = fakeDB.getAllItems();
+const allItemsDOM = allItems.map((item, index) => (
+    <Card
+        hoverable
+        className='addDrawer-card'
+        cover={
+            <img
+                style={{ width: 'auto', height: 300 }}
+                src={process.env.PUBLIC_URL + '/' + item.img}
+            />
+        }
+        onClick={() => {
+            console.log(index)
+        }}
+    >
+        <Meta title={item.name} description={item.price + 'THB'} />
+    </Card>
+));
 
 class ScooopTableChild extends Component {
+
     constructor(props) {
         super(props);
-
-        this.viewOrders = this.viewOrders.bind(this);
-    }
-
-    viewOrders() {
-        console.log('view orders ' + this.props.id);
-        if(this.props.status === null)
-        {
-            console.log('this one is free');
-        }
-        else
-        {
-            console.log('this one is occupied');
-        }
-        this.props.showDrawer();
     }
 
     render() {
-        // let c = 'scooop-table-child';
-        // if(this.props.status != null)
-        // {
-        //     c += ' active';
-        // }
-
         if(this.props.status === undefined)
         {
             return (
@@ -67,7 +68,11 @@ class ScooopTable extends Component {
         this.state = {
             drawerTitle: 'none',
             drawerItems: null,
-            drawerVisible: false
+            drawerVisible: false,
+            drawerIsEditing: false,
+            drawerOrderId: -1,
+            addDrawerVisible: false,
+            addDrawerValue: null
         };
         // console.log(this.props.config);
     }
@@ -77,14 +82,51 @@ class ScooopTable extends Component {
             this.setState({
                 drawerVisible: false
             });
+            setTimeout( () => {
+                this.setState({
+                    drawerTitle: 'none',
+                    drawerItems: null,
+                    drawerIsEditing: false,
+                    drawerOrderId: -1,
+                    addDrawerVisible: false,
+                    addDrawerValue: null
+                });
+            }, 500);
         };
 
-        const showDrawer = (table, items) => {
+        const onCloseAddDrawer = (i) => {
+            this.setState({
+                addDrawerVisible: false,
+                addDrawerValue: (typeof i === 'number') ? i : null
+            });
+            // console.log('add item ' + this.state.addDrawerValue)
+            callSth(i);
+        };
+
+        const callSth = (i) => {
+            console.log('item' + i)
+        }
+
+        const showDrawer = (table, items, orderId) => {
             // console.info('called ' + item)
             this.setState({
                 drawerTitle: 'Orders for table ' + table.toUpperCase(),
                 drawerItems: items,
-                drawerVisible: true
+                drawerVisible: true,
+                drawerOrderId: orderId
+            });
+            console.log(items);
+        }
+
+        const showAddDrawer = () => {
+            this.setState({
+                addDrawerVisible: true,
+            });
+        }
+
+        const toggleEditOrders = () => {
+            this.setState({
+                drawerIsEditing: !this.state.drawerIsEditing
             });
         }
 
@@ -99,6 +141,7 @@ class ScooopTable extends Component {
                                     handler={(e) => {
                                         showDrawer(
                                             item_a + item_b,
+                                            fakeDB.getCurrentOrders(conf.status[item_a + item_b]),
                                             conf.status[item_a + item_b]
                                         );
                                     }}
@@ -117,8 +160,70 @@ class ScooopTable extends Component {
                     placement='right'
                     onClose={onCloseDrawer}
                     visible={this.state.drawerVisible}
+                    className='scooop-drawer'
                 >
-                    <Orders items={this.state.drawerItems} />
+                    <Orders
+                        items={this.state.drawerItems}
+                        isEditing={this.state.drawerIsEditing}
+                        orderId={this.state.drawerOrderId}
+                    />
+                    <Divider />
+                    <>
+                        <Button
+                            type='primary'
+                            size='large'
+                            style={{ marginRight: 10 }}
+                            onClick={showAddDrawer}
+                        >Add</Button>
+                        <Button
+                            size='large'
+                            disabled={this.state.drawerItems === null}
+                            style={{ marginRight: 10 }}
+                            onClick={toggleEditOrders}
+                        >
+                            { this.state.drawerIsEditing ? 'Save' : 'Edit' }
+                        </Button>
+                        <Button
+                            size='large'
+                            disabled={this.state.drawerItems === null}
+                        >
+                            Check bill
+                        </Button>
+                    </>
+                    <Drawer
+                        title='Add an order'
+                        width={500}
+                        placement='right'
+                        onClose={onCloseAddDrawer}
+                        visible={this.state.addDrawerVisible}
+                    >
+                        <div style={{
+                            display: 'flex',
+                            flexFlow: 'row wrap',
+                            justifyContent: 'space-around',
+                            alignItems: 'center'
+                        }}>
+                            {
+                                allItems.map((item, index) => (
+                                    <Card
+                                        hoverable
+                                        className='addDrawer-card'
+                                        cover={
+                                            <img
+                                                style={{ width: 'auto', height: 300 }}
+                                                src={process.env.PUBLIC_URL + '/' + item.img}
+                                            />
+                                        }
+                                        onClick={() => {
+                                            onCloseAddDrawer(index)
+                                        }}
+                                    >
+                                        <Meta title={item.name} description={item.price + 'THB'} />
+                                    </Card>
+                                ))
+                            }
+                        </div>
+                    </Drawer>
                 </Drawer>
             </div>
         );

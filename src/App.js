@@ -3,20 +3,36 @@ import Login from './Login';
 import Home from './Home';
 import './App.css';
 import {message} from 'antd';
+import fakeDB from './fakeDB';
 
 class App extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedin: false
+      isLoggedin: false,
+      currentUser: null
     };
 
+    this.tryLogin = this.tryLogin.bind(this);
     this.setToken = this.setToken.bind(this);
     this.onLogout = this.onLogout.bind(this);
+
+    // let a = new fakeDB();
+    // console.log(a.login('anakin', '1234'));
+  }
+
+  tryLogin(usr, pwd) {
+    let u = fakeDB.login(usr, pwd);
+    this.setState({
+      currentUser: u
+    });
+    // console.log(u);
+    return u !== null;
   }
 
   setToken(usr, pwd, failCallback) {
-    if(usr === 'anakin' && pwd === 'amaterasu')
+    if(this.tryLogin(usr, pwd))
     {
       this.setState({
         isLoggedin: true
@@ -32,7 +48,6 @@ class App extends Component {
   }
 
   onLogout() {
-    console.info('ack logout');
     this.setState({
       isLoggedin: false
     });
@@ -48,7 +63,7 @@ class App extends Component {
 
     return(
       <div className='App'>
-        <Home onLogout={this.onLogout} />
+        <Home onLogout={this.onLogout} privilege={this.state.currentUser.privilege} />
       </div>
     );
   }
