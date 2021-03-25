@@ -9,8 +9,7 @@ import {
 } from '@ant-design/icons';
 import ScooopTable from './ScooopTable';
 
-const {Content, Sider, Footer} = Layout;
-const {SubMenu} = Menu;
+const {Content, Sider} = Layout;
 
 class Home extends Component {
 

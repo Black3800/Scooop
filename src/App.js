@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Login from './Login';
 import Home from './Home';
 import './App.css';
+import {message} from 'antd';
 
 class App extends Component {
   constructor(props) {
@@ -14,17 +15,19 @@ class App extends Component {
     this.onLogout = this.onLogout.bind(this);
   }
 
-  setToken(usr, pwd) {
+  setToken(usr, pwd, failCallback) {
     if(usr === 'anakin' && pwd === 'amaterasu')
     {
       this.setState({
         isLoggedin: true
       });
       sessionStorage.setItem('usr', usr);
+      message.success('Welcome, ' + usr + '!');
     }
     else
     {
-      alert('wrong username/password');
+      message.error('Wrong username or password, please try again.');
+      failCallback();
     }
   }
 
@@ -34,6 +37,7 @@ class App extends Component {
       isLoggedin: false
     });
     sessionStorage.removeItem('usr');
+    message.info('You are logged out.')
   }
 
   render() {
