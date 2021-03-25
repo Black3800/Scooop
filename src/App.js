@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import Login from './Login';
+import Home from './Home';
+import './App.css';
 
 class App extends Component {
   constructor(props) {
@@ -9,10 +11,11 @@ class App extends Component {
     };
 
     this.setToken = this.setToken.bind(this);
+    this.onLogout = this.onLogout.bind(this);
   }
 
   setToken(usr, pwd) {
-    if(usr === 'anakin' && pwd === '1234')
+    if(usr === 'anakin' && pwd === 'amaterasu')
     {
       this.setState({
         isLoggedin: true
@@ -25,6 +28,14 @@ class App extends Component {
     }
   }
 
+  onLogout() {
+    console.info('ack logout');
+    this.setState({
+      isLoggedin: false
+    });
+    sessionStorage.removeItem('usr');
+  }
+
   render() {
     if(!this.state.isLoggedin)
     {
@@ -33,9 +44,9 @@ class App extends Component {
 
     return(
       <div className='App'>
-        You're logged in
+        <Home onLogout={this.onLogout} />
       </div>
-    )
+    );
   }
 }
 
