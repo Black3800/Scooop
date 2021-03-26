@@ -1,9 +1,41 @@
 import React, {Component} from 'react';
-import {Card, Table, Button, Popconfirm} from 'antd';
+import {Card, Table, Button, Popconfirm, Modal, Form, Input, message} from 'antd';
 import fakeDB from './fakeDB';
 
 class Account extends Component {
+    state = {
+        loading: false,
+        visible: false
+    };
+
+    constructor(props) {
+        super(props);
+        this.newPwdForm = React.createRef();
+        this.newPwdInput = React.createRef();
+        this.newPwdConfirmInput = React.createRef();
+    }
+
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    };
+
+    handleOk = () => {
+        this.setState({loading: true});
+        setTimeout(() => {
+            this.setState({loading: false, visible: false});
+            message.info('Password changed');
+        }, 1000);
+    };
+
+    handleCancel = () => {
+        this.setState({visible: false});
+    };
+
     render() {
+        const {visible, loading} = this.state;
+
         const dataSource = fakeDB.getAllAccounts();
 
         const columns = [
@@ -45,9 +77,7 @@ class Account extends Component {
                             style={{ marginRight: 10 }}
                             disabled={(this.props.privilege >= record.privilege)}
                             type='primary'
-                            onClick={() => {
-                                prompt('New password');
-                            }}
+                            onClick={this.showModal}
                         >Change password</Button>
                         <Popconfirm
                             title='Are you sure to remove this user?'
@@ -64,6 +94,11 @@ class Account extends Component {
 
         console.log(this.props.privilege);
 
+        const layout = {
+            labelCol: {span: 8},
+            wrapperCol: {span: 16},
+        };
+
         return(
             <div style={{
                 height: '100%',
@@ -75,6 +110,38 @@ class Account extends Component {
                     <Card title='Manage user accounts' style={{width: '90%', overflowX: 'scroll'}}>
                         <Table dataSource={dataSource} columns={columns} />
                     </Card>
+                    <Modal
+                        visible={this.state.visible}
+                        title="Title"
+                        onOk={this.handleOk}
+                        onCancel={this.handleCancel}
+                        footer={[
+                            <Button key="back" onClick={this.handleCancel}>
+                                Cancel
+                                    </Button>,
+                            <Button key="submit" type="primary" loading={this.state.loading} onClick={this.handleOk}>
+                                Change password
+                            </Button>
+                        ]}
+                    >
+                        <Form
+                            {...layout}
+                            name='change_pwd'
+                        >
+                            <Form.Item
+                                label='New password'
+                                name='new_pwd'
+                            >
+                                <Input.Password ref={this.newPwdInput} />
+                            </Form.Item>
+                            <Form.Item
+                                label='Confirm password'
+                                name='new_pwd_confirm'
+                            >
+                                <Input.Password ref={this.newPwdConfirmInput} />
+                            </Form.Item>
+                        </Form>
+                    </Modal>
             </div>
         )
     }
