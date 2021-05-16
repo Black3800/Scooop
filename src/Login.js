@@ -1,39 +1,37 @@
-import React, {Component} from 'react';
-import {Card, Input, Button, Form} from 'antd';
+import React, {Component} from 'react'
+import {Card, Input, Button, Form} from 'antd'
 
 class Login extends Component {
 
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             login: false
-        };
+        }
 
-        this.onFinish = this.onFinish.bind(this);
-        this.onFinishFailed = this.onFinishFailed.bind(this);
+        this.onFinish = this.onFinish.bind(this)
+        this.onFinishFailed = this.onFinishFailed.bind(this)
     }
 
     onFinish(values) {
         this.setState({
             login: true
         });
-        setTimeout(() => {
-            this.props.setToken(values.usr, values.pwd, this.onFinishFailed);
-        }, 500);
+        this.props.setToken(values.usr, values.pwd, this.onFinishFailed)
     }
 
     onFinishFailed(e) {
         this.setState({
             login: false
-        });
+        })
     }
 
     render() {
         const layout = {
             labelCol: { span:8 },
             wrapperCol: { span: 16 },
-        };
-        return(
+        }
+        return (
             <div
                 className='login-card-wrapper'
                 style={{
@@ -47,7 +45,7 @@ class Login extends Component {
                     hoverable={true}
                 >
                     <Form
-                        {...layout} 
+                        {...layout}
                         name='login'
                         onFinish={this.onFinish}
                         onFinishFailed={this.onFinishedFailed}
@@ -55,20 +53,12 @@ class Login extends Component {
                         <Form.Item
                             label='Username'
                             name='usr'
-                            // rules={[{
-                            //     required: true,
-                            //     message: 'Please enter your username'
-                            // }]}
                         >
                             <Input />
                         </Form.Item>
                         <Form.Item
                             label='Password'
                             name='pwd'
-                            // rules={[{
-                            //     required: true,
-                            //     message: 'Please enter your password'
-                            // }]}
                         >
                             <Input.Password />
                         </Form.Item>
@@ -82,7 +72,7 @@ class Login extends Component {
                     </Form>
                 </Card>
             </div>
-        );
+        )
     }
 }
 

@@ -1,27 +1,19 @@
-import React, {Component} from 'react';
-import {List, Avatar, Typography, InputNumber, Button} from 'antd';
-import {DeleteOutlined} from '@ant-design/icons';
-import fakeDB from './fakeDB';
+import React, {Component} from 'react'
+import {List, Avatar, Typography, InputNumber, Button} from 'antd'
+import {DeleteOutlined} from '@ant-design/icons'
 
-const {Text} = Typography;
+const {Text} = Typography
 
 class Orders extends Component {
 
     constructor(props) {
-        super(props);
+        super(props)
+
+        this.onInputNumberChange = this.onInputNumberChange.bind(this)
     }
 
-    removeItem(it, ind) {
-        let x = JSON.parse(JSON.stringify(it));
-        x.splice(ind, 1);
-        let orders = [];
-        for(let item of x)
-        {
-            // console.log('[' + fakeDB.getItemIdFromName(ii.name) + ', ' + ii.amount + ']');
-            orders.push([fakeDB.getItemIdFromName(item.name), item.amount])
-        }
-        console.log(orders);
-        fakeDB.updateOrder(this.props.orderId, JSON.stringify(orders));
+    onInputNumberChange(id, value) {
+        this.props.updateItemCount(id, value)
     }
 
     render() {
@@ -32,45 +24,53 @@ class Orders extends Component {
             )
         }
 
-        return(
-            <List
-                size='small'
-                bordered
-                dataSource={this.props.items}
-                rowKey='abc'
-                renderItem={(item, index) => (
-                    <List.Item 
-                    key={index}
-                    actions={
-                        this.props.isEditing ?
-                        [
-                            <InputNumber min={1} max={100} value={item.amount} />,
-                            <Button
-                                danger
-                                icon={<DeleteOutlined />}
-                                onClick={() => {
-                                    this.removeItem(this.props.items, index)
-                                }}
+        return (
+            <div>
+                <List
+                    size='small'
+                    bordered
+                    dataSource={this.props.items}
+                    rowKey='abc'
+                    renderItem={(item) => (
+                        <List.Item 
+                        key={item.id}
+                        actions={
+                            this.props.isEditing ?
+                                [
+                                    <InputNumber
+                                        min={1} max={100}
+                                        defaultValue={this.props.items.find(x => x.id === item.id).count}
+                                        onChange={(value) => {
+                                            this.onInputNumberChange(item.id, value)
+                                        }}
+                                    />,
+                                    <Button
+                                        danger
+                                        icon={<DeleteOutlined />}
+                                        onClick={() => {
+                                            this.props.removeItem(item.id)
+                                        }}
+                                    />
+                                ] :
+                                [<Text>{this.props.items.find(x => x.id === item.id).count}</Text>]
+                        }>
+                            <List.Item.Meta
+                                avatar={
+                                    <Avatar
+                                        shape='square'
+                                        size={64}
+                                        src={item.img}
+                                        style={{/*boxShadow: '1px 1px 4px 0.5px rgba(0,0,0,0.3)'*/ }} />
+                                }
+                                title={item.name}
+                                description={item.price + 'THB each'}
                             />
-                        ] :
-                        [<Text>{item.amount}</Text>]
-                    }>
-                        <List.Item.Meta
-                            avatar={
-                                <Avatar
-                                    shape='square'
-                                    size={64}
-                                    src={item.img}
-                                    style={{/*boxShadow: '1px 1px 4px 0.5px rgba(0,0,0,0.3)'*/ }} />
-                            }
-                            title={item.name}
-                            description={item.price + 'THB each'}
-                        />
-                    </List.Item>
-                )}
-            />
-        );
+                        </List.Item>
+                    )}
+                />
+            </div>
+        )
     }
 }
 
-export default Orders;
+export default Orders

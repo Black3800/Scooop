@@ -1,64 +1,92 @@
-import React, {Component} from 'react';
-import 'antd/dist/antd.css';
-import {Layout, Menu, Button} from 'antd';
+import React, {Component} from 'react'
+import 'antd/dist/antd.css'
+import {Layout, Menu, Button} from 'antd'
 import {
     HomeOutlined,
     PieChartOutlined,
     UserOutlined,
     LogoutOutlined
-} from '@ant-design/icons';
-import ScooopTable from './ScooopTable';
-import Account from './Account';
-import Stats from './Stats';
-import fakeDB from './fakeDB';
+} from '@ant-design/icons'
+import ScooopTable from './ScooopTable'
+import Account from './Account'
+import Stats from './Stats'
 
-const {Content, Sider} = Layout;
+const {Content, Sider} = Layout
 
-const screenWidth = window.screen.width;
+const screenWidth = window.screen.width
+const BASE_URL = 'http://localhost:8080/ScooopServerUltimatum_war_exploded/'
+const ws = new WebSocket("ws://localhost:8080/ScooopServerUltimatum_war_exploded/ws")
+// ws.onmessage = function (event) {
+//     console.log(event.data)
+//     // this.props.onSocketMessage()
+// }
 
 class Home extends Component {
 
-    state = {
-        collapsed: (screenWidth <= 320),
-        loggedOut: false,
-        page: 'scooopTable'
-    };
+    constructor(props) {
+        super(props)
+        this.state = {
+            collapsed: (screenWidth <= 320),
+            loggedOut: false,
+            page: 'scooopTable',
+            currentOrder: null
+        }
+        ws.onmessage = (event) => {
+            console.log(event.data)
+            this.getCurrentOrder()
+        }
 
-    onCollapse = collapsed => {
-        console.log(collapsed);
+        this.onCollapse = this.onCollapse.bind(this)
+        this.logout = this.logout.bind(this)
+    }
+
+    onCollapse(collapsed) {
+        // console.log(collapsed)
         this.setState({
             collapsed
-        });
-    };
+        })
+    }
 
-    logout = () => {
+    logout() {
         this.setState({
             loggedOut: true
-        });
-        this.props.onLogout();
+        })
+        this.props.onLogout()
+    }
+
+    async getCurrentOrder() {
+        let response = await fetch(BASE_URL + 'api/order/current', {
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            credentials: 'include'
+        })
+        let json = await response.json()
+        this.setState({
+            currentOrder: json
+        })
+    }
+
+    async componentDidMount() {
+        this.getCurrentOrder()
     }
 
     render() {
-        console.log('render home with priv ' + this.props.privilege);
-        const {collapsed} = this.state;
-        const logoutBtnText = collapsed ? '' : 'Logout';
-        const p = {
-            key_a: ['a', 'b', 'c'],
-            key_b: ['1', '2', '3', '4'],
-            status: fakeDB.getCurrent()
-        };
-        let page;
+        console.log('render home with priv ' + this.props.privilege)
+        const {collapsed} = this.state
+        const logoutBtnText = collapsed ? '' : 'Logout'
+        let page
         if(this.state.page === 'scooopTable')
         {
-            page = <ScooopTable config={p} />;
+            page = <ScooopTable config={this.state.currentOrder} ws={ws} />
         }
         else if(this.state.page === 'account')
         {
-            page = <Account privilege={this.props.privilege} />;
+            page = <Account privilege={this.props.privilege} />
         }
         else if(this.state.page === 'stats')
         {
-            page = <Stats />;
+            page = <Stats />
         }
         return (
             <Layout style={{ minHeight: '100vh', background: '#eee'}}>
@@ -89,7 +117,6 @@ class Home extends Component {
                                     page: 'account'
                                 })
                             }}
-                            disabled={this.props.privilege === 2}
                         >
                             Manage Accounts
                         </Menu.Item>
@@ -116,8 +143,8 @@ class Home extends Component {
                     {page}
                 </Content>
             </Layout>
-        );
+        )
     }
 }
 
-export default Home;
+export default Home
